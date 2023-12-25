@@ -266,7 +266,12 @@ img {
 
 /* Footer */
 .footer {
-  margin: 4rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(250, 245, 238); /* Adjust the background color as needed */
+  padding: 1rem; /* Adjust the padding as needed */
   text-align: center;
 }
 
@@ -349,6 +354,7 @@ img {
   color: var(--gray);
   text-decoration: none;
   margin-top: 40px;
+  margin-bottom: 95px;
   display: inline-block;
 }
 
