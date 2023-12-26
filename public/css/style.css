@@ -124,10 +124,14 @@ img {
   display: flex;
   grid-area: menu;
 }
+.header__logo__admin , .header__logo_poems {
+  font-weight: 800;
+  font-size: 25px;
+  text-decoration: none;
+  grid-area: logo;
+}
 
-.header__logo,
-.header__nav,
-.header__button {
+.header__logo, .header__nav, .header__button ,.header__logo__admin , .header__logo_poems  {
   width: 100%;
 }
 
@@ -376,4 +380,22 @@ img {
    width: 2rem;
    border-radius: 50%;
   
+}
+.btn-logout {
+  background-color: rgb(250, 245, 238); 
+  border: none;
+  padding: 0;
+  margin: 0;
+
+}
+.btn-img-logout{
+  background-color: white;
+  border-radius: 20%;
+height: 30px;
+
+}
+.btn-img-logout:hover{
+   scale: 1.1;
+   cursor: pointer;
+   border: grey solid 1px;
 }
