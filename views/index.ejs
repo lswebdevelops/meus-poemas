@@ -1,6 +1,6 @@
 <div class="author">
     <h1 class="author__heading">
-       Olá, eu sou HW.
+       Olá, sou HW.
     </h1>
     <p class="author__body">Escritor e Poeta.
 
@@ -12,12 +12,17 @@
 <section class="articles">
     <h2 class="articles__heading">Meus últimos poemas</h2>
     <ul class="article-ul">
-        <li>
-            <a href="#">
-                <span>Título do Poema</span>
-                <span class="article-list__date">Data</span>
-            </a>
-        </li>
+        
+        <% data.forEach(element => { %>
+            <li>
+                <a href="/poemas/<%= element._id %>">
+                    <span> <%= element.title %></span>
+                    <span class="article-list__date"> <%= element.createdAt.toDateString() %></span>
+                </a>
+            </li>
+            
+        <% }) %>
+
     </ul>
     <a href="#" class="pagination">&lt; Ver Poemas Mais Antigos</a>
 </section>
