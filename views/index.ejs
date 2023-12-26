@@ -15,7 +15,7 @@
         
         <% data.forEach(element => { %>
             <li>
-                <a href="/poemas/<%= element._id %>">
+                <a href="/poema/<%= element._id %>">
                     <span> <%= element.title %></span>
                     <span class="article-list__date"> <%= element.createdAt.toDateString() %></span>
                 </a>
@@ -24,5 +24,9 @@
         <% }) %>
 
     </ul>
-    <a href="#" class="pagination">&lt; Ver Poemas Mais Antigos</a>
+
+    <% if (nextPage !== null) { %>
+     
+        <a href="/?page=<%= nextPage %>" class="pagination">&lt; Ver Poemas Mais Antigos</a>
+        <% } %>
 </section>

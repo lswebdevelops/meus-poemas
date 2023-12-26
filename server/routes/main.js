@@ -9,16 +9,32 @@ const Poems = require('../models/Poems')
  *  
  */
 
+// adding pagination
 
 router.get("/", async (req, res) => {
+  try {
     const locals = {
         title: "Meus Poemas",
-        description: "Simple Blog created with NodeJs, Express &amp; MongoDb."
+        description: "Simple website for poems created with NodeJs, Express &amp; MongoDb."
     }
 
-    try {
-      const data = await Poems.find();
-      res.render("index", {locals, data});
+    let perPage = 5;
+    let page = req.query.page || 1;
+
+    const data = await Poems.aggregate([{ $sort: { createdAt: -1 }}])
+    .skip(perPage * page - perPage)
+    .limit(perPage)
+    .exec()
+
+    const count = await Poems.countDocuments({})
+    const nextPage = parseInt(page) + 1;
+    const hasNextPage = nextPage <= Math.ceil( count / perPage)
+       res.render("index", {
+        locals,
+         data,
+        current: page,
+        nextPage: hasNextPage ? nextPage: null
+      });
       
     } catch (error) {
       console.log(error);
