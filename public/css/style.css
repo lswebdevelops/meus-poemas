@@ -335,6 +335,13 @@ img {
   right: 0;
 }
 
+
+.header_button {
+  display: flex;
+  justify-content: right;
+
+}
+
 .searchBar.open {
   transform: translateY(0);
   transition: transform 0.1s;
@@ -363,4 +370,10 @@ img {
 
 .pagination:hover {
   color: var(--black);
+}
+.x-close-icon {
+  background-color: white;
+   width: 2rem;
+   border-radius: 50%;
+  
 }

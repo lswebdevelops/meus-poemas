@@ -13,6 +13,11 @@ const PORT = 5000 || process.env.PORT;
 // connect db
 connectDB();
 
+// search: 
+app.use(express.urlencoded({ extended: true}))
+app.use(express.json())
+
+
 // setting public folder
 app.use(express.static("public"));
 

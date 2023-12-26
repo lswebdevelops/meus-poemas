@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
         description: "Simple website for poems created with NodeJs, Express &amp; MongoDb."
     }
 
-    let perPage = 5;
+    let perPage = 6;
     let page = req.query.page || 1;
 
     const data = await Poems.aggregate([{ $sort: { createdAt: -1 }}])
@@ -45,83 +45,69 @@ router.get("/", async (req, res) => {
 
 
 
+/*
+ * Get/
+ * poems
+ *  
+ */
 
 
 
+router.get("/poema/:id", async (req, res) => {
+  try {
+    let slug = req.params.id
 
+    const data = await Poems.findById( { _id: slug })
 
-// function insertPoemData() {
-//   Poems.insertMany([
-//     {
-//       title: "Sussurros da Noite",
-//       author: "Emily Grace",
-//       body: "No silêncio da noite iluminada pela lua,\nSussurros tecem uma história tão suave.\nEstrelas acima, como diamantes que cintilam,\nEcoando o sonho de um amante."
-//     },
-//     {
-//       title: "Sinfonia Silenciosa",
-//       author: "Alexander Muse",
-//       body: "A natureza conduz uma sinfonia silenciosa,\nVento e folhas, uma harmoniosa festa.\nMontanhas permanecem com graça estoica,\nEnquanto o mundo veste sua face tranquila."
-//     },
-//     {
-//       title: "Ecos Eternos",
-//       author: "Serena Rain",
-//       body: "Pegadas desvanecem na praia de areia,\nEcos de amor para sempre.\nOndas abraçam, depois se despedem,\nMas o amor permanece sob o céu."
-//     },
-//     {
-//       title: "Serenata da Primavera",
-//       author: "Elijah Bloom",
-//       body: "No jardim onde as flores brincam,\nA primavera orquestra uma grande bailarina.\nPétalas dançam na luz suave,\nUma sinfonia de cores alçando voo."
-//     },
-//     {
-//       title: "Reverie da Meia-Noite",
-//       author: "Luna Song",
-//       body: "Sussurros da meia-noite revelam segredos não contados,\nCorrentes prateadas de luz da lua se desdobram.\nSonhos emergem na quietude,\nUma tapeçaria tecida no tear."
-//     },
-//     {
-//       title: "Cascata de Sonhos",
-//       author: "Aria Nightingale",
-//       body: "Sonhos caem como uma cascata,\nRaios de lua tecendo um xale celestial.\nNo reino tranquilo onde os sonhos residem,\nRealidade e fantasia coincidem."
-//     },
-//     {
-//       title: "Vozes da Floresta",
-//       author: "Finn Woods",
-//       body: "No coração da floresta antiga,\nSussurros das árvores, sábios e bons.\nFolhas sussurram contos de eras passadas,\nSabedoria da natureza inigualável."
-//     },
-//     {
-//       title: "Abraço do Crepúsculo",
-//       author: "Isabella Twilight",
-//       body: "O crepúsculo desce, um beijo de amante,\nCéu pintado em tons de felicidade.\nEstrelas surgem como fogo distante,\nIniciando o tranquilo coral da noite."
-//     },
-//     {
-//       title: "Dança da Aurora",
-//       author: "Orion Borealis",
-//       body: "A aurora tece sua dança cósmica,\nFitas de luz em um transe celestial.\nCores giram na noite do norte,\nUma bailarina cósmica, pura e brilhante."
-//     },
-//     {
-//       title: "Almas Errantes",
-//       author: "Sylvia Wanderer",
-//       body: "Almas errantes na bruma do crepúsculo,\nPerseguindo sonhos que persistentemente flutuam.\nPegadas ecoam na luz que desvanece,\nUma jornada na noite tranquila."
-//     },
-//   ]);
-// }
+    const locals = {
+        title: data.title,
+        description: "Simple website for poems created with NodeJs, Express &amp; MongoDb."
+    }
 
-//insertPoemData()
+    res.render('poem', { locals, data })
+  
+      
+    } catch (error) {
+      console.log(error);
+    }
+
+});
 
 
 
+/*
+ * post/
+ * poems searchTerm
+ *  
+ */
 
+router.post("/search", async (req, res) => {
+  try {
+    
+    const locals = {
+        title:  "Search",
+        description: "Simple website for poems created with NodeJs, Express &amp; MongoDb."
+    }
 
+let searchTerm = req.body.searchTerm;
+const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
 
+const data = await Poems.find({
+  $or: [
+    { title: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+    { body: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+    { author: { $regex: new RegExp(searchNoSpecialChar, "i") } }
+  ]
+})
 
+res.render('search', { locals, data });
+  
+      
+    } catch (error) {
+      console.log(error);
+    }
 
-
-
-
-
-
-
-
-
+});
 
 
 
@@ -135,5 +121,74 @@ router.get("/about", (req, res) => {
 router.get("/contact", (req, res) => {
   res.render("contact");
 });
+
+
+
+
+
+
+
+
+
+
+// function insertPoemData() {
+//   Poems.insertMany([
+//     {
+//       title: "Reflexões ao Luar",
+//       author: "Lara Starlight",
+//       body: "Luar derrama suas lágrimas prateadas,\nRefletindo segredos nos espelhos da noite.\nCada raio conta uma história,\nNa serenata mágica sob a luz lunar."
+//     },
+//     {
+//       title: "O Canto do Riacho",
+//       author: "River Harmony",
+//       body: "Riacho murmura uma canção suave,\nA melodia da natureza ecoa nas pedras.\nCada gota, uma nota em sintonia,\nNa sinfonia eterna das águas dançantes."
+//     },
+//     {
+//       title: "Inverno Silencioso",
+//       author: "Elsa Frost",
+//       body: "Silêncio paira sobre a paisagem de gelo,\nInverno tece um manto de quietude.\nFlocos de neve dançam em câmera lenta,\nUm conto gélido sob o abraço do frio."
+//     },
+//     {
+//       title: "Canção do Viajante",
+//       author: "Wanderer's Muse",
+//       body: "Pé ante pé, o viajante avança,\nCaminhos traçados por estrelas cintilantes.\nHistórias sussurram nas brisas itinerantes,\nA jornada, uma poesia em constante mudança."
+//     },
+//     {
+//       title: "A Dança das Folhas",
+//       author: "Autumn Whispers",
+//       body: "Outono pinta a floresta em tons de ouro,\nFolhas dançam na brisa outonal.\nO chão se torna um tapete de memórias,\nA dança efêmera das folhas em sua despedida."
+//     },
+//     {
+//       title: "Canção da Noite Estrelada",
+//       author: "Stella Nightfall",
+//       body: "Estrelas se alinham em um balé celestial,\nCintilando na vastidão da noite.\nUma canção silenciosa ressoa,\nA sinfonia da noite estrelada."
+//     },
+//     {
+//       title: "Retrato do Amanhecer",
+//       author: "Dawn Painter",
+//       body: "Pincéis de luz pintam o horizonte,\nAmanhecer, um retrato em tons suaves.\nCores despertam o mundo adormecido,\nUm novo dia se revela na paleta do sol."
+//     },
+//     {
+//       title: "Poesia do Mar",
+//       author: "Marina Serenade",
+//       body: "Ondas sussurram poesia nas areias,\nHistórias antigas esculpidas em conchas.\nMares vastos, um poema em movimento,\nO eco eterno da poesia do mar."
+//     },
+//     {
+//       title: "Canção da Primavera",
+//       author: "Floral Melody",
+//       body: "Botões desabrocham em um concerto floral,\nPrimavera, maestrina de cores vivas.\nA terra desperta em alegria,\nNa melodia suave da estação das flores."
+//     },
+//     {
+//       title: "Céu Noturno da Montanha",
+//       author: "Summit Serenity",
+//       body: "Montanhas tocam o céu noturno,\nEstrelas como diamantes sobre o pico.\nSilêncio majestoso, uma prece na altitude,\nNa serenidade do céu noturno da montanha."
+//     },
+//   ]);
+// }
+
+// insertPoemData()
+
+
+
 
 module.exports = router;
