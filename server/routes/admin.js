@@ -146,9 +146,53 @@ router.post("/add-poem", authMiddleware,  async (req, res) => {
 
 
 })
- 
+/*
+ * get/
+ *  admin - edit poem
+ *
+ */
+router.get("/edit-poem/:id", authMiddleware, async (req, res) => {
+  try {
+   
+    const locals = { 
+      title: "Editar Poema",
+      description: "Free nodeJs user management System"
+    }
+    const data = await Poems.findOne( { _id: req.params.id });
+    res.render('admin/edit-poem', {
+      data, 
+      locals,
+      layout: adminLayout
+    })
+   
+
+  } catch (error) {
+  console.log(error);}
+});
 
 
+/*
+ * put/
+ *  admin - edit poem
+ *
+ */
+
+router.put("/edit-poem/:id", authMiddleware, async (req, res) => {
+  try {
+    await Poems.findByIdAndUpdate(req.params.id, {
+      title: req.body.title,
+      body: req.body.body,
+      author: req.body.author,
+      updatedAt: Date.now()
+    })
+
+    res.redirect(`/edit-poem/${req.params.id}`)
+
+  } catch (error) {
+
+    console.log(error);
+  }
+});
 
 
 /*
