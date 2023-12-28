@@ -33,7 +33,8 @@ router.get("/", async (req, res) => {
         locals,
          data,
         current: page,
-        nextPage: hasNextPage ? nextPage: null
+        nextPage: hasNextPage ? nextPage: null,
+        currentRoute: '/'
       });
       
     } catch (error) {
@@ -64,7 +65,11 @@ router.get("/poema/:id", async (req, res) => {
         description: "Simple website for poems created with NodeJs, Express &amp; MongoDb."
     }
 
-    res.render('poem', { locals, data })
+    res.render('poem', { 
+      locals,
+       data,
+       currentRoute: `/post/${slug}`,
+       })
   
       
     } catch (error) {
@@ -100,7 +105,11 @@ const data = await Poems.find({
   ]
 })
 
-res.render('search', { locals, data });
+res.render('search', { 
+  locals, 
+  data,
+  currentRoute: '/'
+});
   
       
     } catch (error) {
@@ -115,11 +124,15 @@ res.render('search', { locals, data });
 
 
 router.get("/about", (req, res) => {
-  res.render("about");
+  res.render("about", {
+    currentRoute: '/about'
+  });
 });
 
 router.get("/contact", (req, res) => {
-  res.render("contact");
+  res.render("contact", {
+    currentRoute: '/contact'
+  });
 });
 
 
