@@ -321,6 +321,9 @@ img {
 .admin-posts a:hover {
   scale: 1.02;
 }
+.admin-posts input:hover {
+  scale: 1.02;
+}
 
 .admin-posts li {
   display: flex;

@@ -45,7 +45,7 @@ router.get("/admin", async (req, res) => {
 });
 
 /*
- * Poems/
+ * post/
  *  admin - check login
  *
  */
@@ -78,23 +78,78 @@ router.post("/admin", async (req, res) => {
  */
 
 router.get("/dashboard", authMiddleware,  async (req, res) => {
-  res.render("admin/dashboard");
+ 
+
+  try {
+    const locals = {
+      title: "Admin",
+      description: "Simple Blog created with NodeJs, Express &amp; MongoDb.",
+    };
+
+    const data = await Poems.find();
+    res.render("admin/dashboard", {
+      locals, 
+      data
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-// router.post('/admin', async (req, res) => {
-//   try {
-//     const { username , password } = req.body;
-//     // console.log(req.body);
-//     if(req.body.username === 'admin' && req.body.password === "password") {
-//       res.send("You are logged in.")
-//     }else {
-//       res.send('error')
-//     }
+/**
+ * get
+ * Admin - create new post
+ */
 
-//   } catch (error) {
-//     console.log(error);
-//   }
-// })
+router.get("/add-poem", authMiddleware, async (req, res) => {
+  try {
+    const locals = {
+      title: "Adicionar Poema",
+      description: "Simple Blog created with NodeJs, Express & MongoDB",
+    };
+
+    const data = await Poems.find();
+    res.render("admin/add-poem", {
+      locals,
+      layout: adminLayout,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+/*
+ * post/
+ *  admin -create new poem
+ *
+ */
+
+router.post("/add-poem", authMiddleware,  async (req, res) => {
+
+    try {
+      try {
+        const newPoem = new Poems({
+          title: req.body.title,
+          body: req.body.body,
+          author: req.body.author
+
+        });
+        await Poems.create(newPoem);
+        res.redirect('/dashboard');
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+
+
+})
+ 
+
+
+
 
 /*
  * Poems/

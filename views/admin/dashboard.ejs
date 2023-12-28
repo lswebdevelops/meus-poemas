@@ -1,1 +1,24 @@
-<h1>dashboard</h1>
+<div class="admin-title">
+    <h2>Poemas
+    </h2>
+    <a href="/add-poem" class="button">+Novo</a>
+</div>
+
+<ul class="admin-posts">
+    <% data.forEach(poem=> {
+        %>
+        <li>
+            <a href="/poema/<%= poem._id  %>">
+                <%= poem.title %> &nearr;
+            </a>
+            <div class="admin-post-controls">
+                <a href="/editar-poema/<%= poem._id %>" class="btn">Editar</a>
+
+                <form action="/deletar-poema/<%= poem._id  %>?_method=DELETE" method="POST">
+                    <input type="submit" class="btn" value="Deletar">
+                </form>
+            </div>
+        </li>
+
+        <% }) %>
+</ul>
