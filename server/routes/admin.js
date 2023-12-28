@@ -193,6 +193,24 @@ router.put("/edit-poem/:id", authMiddleware, async (req, res) => {
     console.log(error);
   }
 });
+/*
+ * delete/
+ * admin  delete post -
+ *
+ */
+
+router.delete('/delete-poem/:id', authMiddleware, async( req, res) => {
+  try {
+    await Poems.deleteOne( { _id: req.params.id })
+    res.redirect('/dashboard')
+  } catch (error) {
+    console.log(error);    
+  }
+})
+
+/*
+/----------------------------------------------------------------------/
+*/
 
 
 /*
