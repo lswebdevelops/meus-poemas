@@ -9,8 +9,12 @@
 </div>
 
 <form action="/edit-poem/<%= data._id %>?_method=PUT" method="POST">
+
     <label for="title"><b>Título</b></label>
     <input type="text" placeholder="Título do Poema" value="<%= data.title %>" name="title">
+
+    <label for="author"><b>Autor(a)</b></label>
+    <input type="text" placeholder="Autor(a) do Poema" value="<%= data.author %>" name="author">
 
     <label for="body"><b>Conteúdo</b></label>
     <textarea cols="50" role="10" name="body"><%= data.body %></textarea>

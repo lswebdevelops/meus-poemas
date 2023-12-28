@@ -77,9 +77,7 @@ router.post("/admin", async (req, res) => {
  *
  */
 
-router.get("/dashboard", authMiddleware,  async (req, res) => {
- 
-
+router.get("/dashboard", authMiddleware, async (req, res) => {
   try {
     const locals = {
       title: "Admin",
@@ -88,10 +86,10 @@ router.get("/dashboard", authMiddleware,  async (req, res) => {
 
     const data = await Poems.find();
     res.render("admin/dashboard", {
-      locals, 
-      data
+      locals,
+      data,
+      layout: adminLayout,
     });
-
   } catch (error) {
     console.log(error);
   }
@@ -124,28 +122,23 @@ router.get("/add-poem", authMiddleware, async (req, res) => {
  *
  */
 
-router.post("/add-poem", authMiddleware,  async (req, res) => {
-
+router.post("/add-poem", authMiddleware, async (req, res) => {
+  try {
     try {
-      try {
-        const newPoem = new Poems({
-          title: req.body.title,
-          body: req.body.body,
-          author: req.body.author
-
-        });
-        await Poems.create(newPoem);
-        res.redirect('/dashboard');
-      } catch (error) {
-        console.log(error);
-      }
+      const newPoem = new Poems({
+        title: req.body.title,
+        body: req.body.body,
+        author: req.body.author,
+      });
+      await Poems.create(newPoem);
+      res.redirect("/dashboard");
     } catch (error) {
       console.log(error);
-      
     }
-
-
-})
+  } catch (error) {
+    console.log(error);
+  }
+});
 /*
  * get/
  *  admin - edit poem
@@ -153,23 +146,20 @@ router.post("/add-poem", authMiddleware,  async (req, res) => {
  */
 router.get("/edit-poem/:id", authMiddleware, async (req, res) => {
   try {
-   
-    const locals = { 
+    const locals = {
       title: "Editar Poema",
-      description: "Free nodeJs user management System"
-    }
-    const data = await Poems.findOne( { _id: req.params.id });
-    res.render('admin/edit-poem', {
-      data, 
+      description: "Free nodeJs user management System",
+    };
+    const data = await Poems.findOne({ _id: req.params.id });
+    res.render("admin/edit-poem", {
+      data,
       locals,
-      layout: adminLayout
-    })
-   
-
+      layout: adminLayout,
+    });
   } catch (error) {
-  console.log(error);}
+    console.log(error);
+  }
 });
-
 
 /*
  * put/
@@ -183,13 +173,11 @@ router.put("/edit-poem/:id", authMiddleware, async (req, res) => {
       title: req.body.title,
       body: req.body.body,
       author: req.body.author,
-      updatedAt: Date.now()
-    })
+      updatedAt: Date.now(),
+    });
 
-    res.redirect(`/edit-poem/${req.params.id}`)
-
+    res.redirect(`/edit-poem/${req.params.id}`);
   } catch (error) {
-
     console.log(error);
   }
 });
@@ -199,19 +187,27 @@ router.put("/edit-poem/:id", authMiddleware, async (req, res) => {
  *
  */
 
-router.delete('/delete-poem/:id', authMiddleware, async( req, res) => {
+router.delete("/delete-poem/:id", authMiddleware, async (req, res) => {
   try {
-    await Poems.deleteOne( { _id: req.params.id })
-    res.redirect('/dashboard')
+    await Poems.deleteOne({ _id: req.params.id });
+    res.redirect("/dashboard");
   } catch (error) {
-    console.log(error);    
+    console.log(error);
   }
-})
+});
+/*
+ * get/
+ * admin  logout-
+ *
+ */
 
+router.get("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/admin");
+});
 /*
 /----------------------------------------------------------------------/
 */
-
 
 /*
  * Poems/
