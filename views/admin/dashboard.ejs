@@ -12,10 +12,10 @@
                 <%= poem.title %> &nearr;
             </a>
             <div class="admin-post-controls">
-                <a href="/edit-poem/<%= poem._id %>" class="btn">Editar</a>
+                <a href="/edit-poem/<%= poem._id %>" class="btn">🖊</a>
 
                 <form action="/delete-poem/<%= poem._id  %>?_method=DELETE" method="POST">
-                    <input type="submit" class="btn" value="Deletar">
+                    <input type="submit" class="btn " value="✖">
                 </form>
             </div>
         </li>

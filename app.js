@@ -9,7 +9,7 @@ const connectDB = require("./server/config/db");
 const app = express();
 
 const cookieParser = require("cookie-parser");
-const mongoStore = require("connect-mongo");
+
 const MongoStore = require("connect-mongo");
 
 const PORT = 5000 || process.env.PORT;
